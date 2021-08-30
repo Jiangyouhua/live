@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	keyFile = "/Users/jiangyouhua/code/system/live/server/server.key"
+	keyFile  = "/Users/jiangyouhua/code/system/live/server/server.key"
 	certFile = "/Users/jiangyouhua/code/system/live/server/server.crt"
 )
 
@@ -23,12 +23,16 @@ func main() {
 	http.HandleFunc("/", webSite)
 	http.HandleFunc("/ws", webSocket)
 
-	if err := http.ListenAndServeTLS(":443", certFile, keyFile, nil); err != nil {
-		log.Fatalln(err)
+	// if err := http.ListenAndServeTLS(":443", certFile, keyFile, nil); err != nil {
+	// 	log.Fatalln(err)
+	// }
+
+	if err := http.ListenAndServe(":80", nil); err != nil {
+		log.Fatal(err)
 	}
 }
 
-func webSite(w http.ResponseWriter, r * http.Request) {
+func webSite(w http.ResponseWriter, r *http.Request) {
 	p := "." + r.URL.Path
 	if p == "./" {
 		p = "./site/chat.html"
@@ -36,7 +40,7 @@ func webSite(w http.ResponseWriter, r * http.Request) {
 	http.ServeFile(w, r, p)
 }
 
-func webSocket(w http.ResponseWriter, r * http.Request) {
+func webSocket(w http.ResponseWriter, r *http.Request) {
 	log.Println("socket", r.URL)
 	socket.ServeWs(hub, w, r)
 }
