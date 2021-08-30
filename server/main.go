@@ -31,7 +31,7 @@ func main() {
 func webSite(w http.ResponseWriter, r * http.Request) {
 	p := "." + r.URL.Path
 	if p == "./" {
-		p = "./site/index.html"
+		p = "./site/chat.html"
 	}
 	http.ServeFile(w, r, p)
 }
