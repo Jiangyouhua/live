@@ -1,14 +1,15 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"server/socket"
 )
 
 const (
-	keyFile  = "/Users/jiangyouhua/code/system/live/server/server.key"
-	certFile = "/Users/jiangyouhua/code/system/live/server/server.crt"
+	keyFile  = "/etc/letsencrypt/live/muutr.com/privkey.pem"   // "/Users/jiangyouhua/code/system/live/server/server.key"
+	certFile = "/etc/letsencrypt/live/muutr.com/fullchain.pem" // "/Users/jiangyouhua/code/system/live/server/server.crt"
 )
 
 var (
@@ -16,6 +17,8 @@ var (
 )
 
 func main() {
+	flag.Parse()
+
 	hub = socket.NewHub()
 	go hub.Run()
 
@@ -23,12 +26,8 @@ func main() {
 	http.HandleFunc("/", webSite)
 	http.HandleFunc("/ws", webSocket)
 
-	// if err := http.ListenAndServeTLS(":443", certFile, keyFile, nil); err != nil {
-	// 	log.Fatalln(err)
-	// }
-
-	if err := http.ListenAndServe(":80", nil); err != nil {
-		log.Fatal(err)
+	if err := http.ListenAndServeTLS(":443", certFile, keyFile, nil); err != nil {
+		log.Fatalln(err)
 	}
 }
 
