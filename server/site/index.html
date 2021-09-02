@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>WebRTC</title>
-    <script src="./chat.js"></script>
+    <script src="./chat.js?1"></script>
+    <style>
+        video {
+            border: 5px solid black;
+            width: 320px;
+            height: 240px;
+            transform: rotateY(180deg);
+        }
+        button {
+            width: 150px
+        }
+    </style>
 </head>
+
 <body>
-<div>
+    <h1>WebRTC</h1>
+    <div id="connectionInfo"></div>
+    <video id="localClient" playsinline autoplay muted></video>
+    <video id="remoteClient" playsinline autoplay></video>
     <div>
-        <video style="width: 49%" id="localClient"></video>
-        <video style="width: 49%" id="remoteClient"></video>
+        <button id="testButton">Test WebSocket</button>
+        <button id="startButton">WebRTC Offer</button>
+        <button id="endButton">WebRTC Exit</button>
     </div>
-</div>
 </body>
+
 </html>
